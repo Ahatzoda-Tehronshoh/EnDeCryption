@@ -1,25 +1,20 @@
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.transform
 
 suspend fun main() {
-    val coroutineScope = CoroutineScope(Dispatchers.Default)
-
-    val flow = flow<Int> {
-        val list = listOf(1, 2, 3, 4, 5)
-        for(i in list) {
-            print("Printing $i number: ")
-            emit(i)
-        }
+    var flow = (1..15).asFlow()
+    val flow1 = (16..30).asFlow()
+    flow = flow.combine(flow1) { elem1, elem2 ->
+        elem1 + elem2
     }
 
-    coroutineScope.launch {
-        flow.collect {
-            println(it)
-        }
-    }.join()
+    val flow3 = flow.transform<Int, String> {
+        emit("$it - ?")
+    }
+
+    flow3.collect{
+        println(it)
+    }
 }

@@ -26,7 +26,14 @@ public class Main {
 
         JPanel controlPanel = new JPanel(new FlowLayout());
         controlPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Добавление отступов
-        String[] str = new String[]{"Atbash", "Cesar", "Vigenere", "Playfair", "Hill"};
+        String[] str = new String[]{
+                "Atbash",
+                "Cesar",
+                "Vigenere",
+                "Playfair",
+                "Hill",
+                "Vertical"
+        };
         methods = new JComboBox<>(str);
         keyField = new JTextField(10);
         keyField.setVisible(false);
@@ -133,8 +140,10 @@ public class Main {
                     case "Vigenere" -> Vigenere.encrypt(key, text);
                     case "Playfair" -> Playfair.encrypt(key, text);
                     case "Hill" -> Hill.encrypt(key, text);
+                    case "Vertical" -> Vertical.encrypt(key, text);
                 }
             } catch (Exception ex) {
+                ex.printStackTrace();
                 String mes = "Такой ключ не подходит!\n" + ex.getMessage();
                 JOptionPane.showMessageDialog(null, mes, "Предупреждение", JOptionPane.WARNING_MESSAGE);
                 return;
@@ -175,9 +184,11 @@ public class Main {
                     case "Vigenere" -> Vigenere.decrypt(key, text);
                     case "Playfair" -> Playfair.decrypt(key, text);
                     case "Hill" -> Hill.decrypt(key, text);
+                    case "Vertical" -> Vertical.decrypt(key, text);
                 }
 
             } catch (Exception ex) {
+                ex.printStackTrace();
                 String mes = "Этот шифр не для вас!\n" + ex.getMessage();
                 JOptionPane.showMessageDialog(null, mes, "Предупреждение", JOptionPane.WARNING_MESSAGE);
                 return;
