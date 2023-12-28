@@ -1,5 +1,3 @@
-import javax.swing.*;
-import java.awt.*;
 import java.math.BigInteger;
 import java.util.Vector;
 
@@ -30,6 +28,9 @@ public class Hill {
     public static void encrypt(Vector<Character> key, Vector<Character> text) {
         filler = 'X';
         Vector<Vector<Integer>> keyMatrix = keyToMatrix(key);
+
+        int det = (int) determinant(keyMatrix);
+        digitInverse(det, 65536);
 
         if (text.contains(filler)) {
             System.out.println("Filler changed!");
@@ -82,7 +83,8 @@ public class Hill {
 
         text.clear();
         for (char c : decrypted.toString().toCharArray())
-            text.add(c);
+            if (c != filler)
+                text.add(c);
     }
 
     private static Vector<Vector<Integer>> invertMatrix(Vector<Vector<Integer>> matrix) {

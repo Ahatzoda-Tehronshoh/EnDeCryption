@@ -2,7 +2,6 @@ import java.math.BigInteger;
 import java.util.Vector;
 
 class RSA {
-
     public static BigInteger[] generateED(int p, int q) {
         int fiN = (p - 1) * (q - 1);
 
