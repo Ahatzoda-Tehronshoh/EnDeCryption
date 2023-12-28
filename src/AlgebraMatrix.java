@@ -1,9 +1,7 @@
-import javax.swing.*;
-import java.awt.*;
 import java.math.BigInteger;
 import java.util.Vector;
 
-public class Hill {
+public class AlgebraMatrix {
     private static Character filler = 'X';
 
     private static Vector<Vector<Integer>> keyToMatrix(Vector<Character> key) {
@@ -43,15 +41,24 @@ public class Hill {
         while ((text.size() % keyMatrix.size()) != 0)
             text.add(filler);
 
+        for(char ch: text)
+            System.out.print((int)ch + " ");
+
+        System.out.println();
+
+        System.out.println("=====================EncryptedText");
         StringBuilder encrypted = new StringBuilder();
-        for (int i = 0; i < text.size(); i += keyMatrix.size())
+        for (int i = 0; i < text.size(); i += keyMatrix.size()) {
             for (int j = 0; j < keyMatrix.size(); ++j) {
                 int encryptedChar = 0;
                 for (int k = 0; k < keyMatrix.size(); ++k)
                     encryptedChar += keyMatrix.get(j).get(k) * text.get(i + k);
 
-                encrypted.append((char) (encryptedChar % 65536));
+                System.out.print((encryptedChar) + " ");
+                encrypted.append((char) (encryptedChar));
             }
+            System.out.println();
+        }
 
         text.clear();
         for (char c : encrypted.toString().toCharArray()) {
@@ -63,21 +70,27 @@ public class Hill {
 
     public static void decrypt(Vector<Character> key, Vector<Character> text) {
         Vector<Vector<Integer>> keyMatrix = keyToMatrix(key);
-        System.out.println(keyMatrix.toString());
 
-        Vector<Vector<Integer>> inverseKeyMatrix = invertMatrix(keyMatrix);
+        System.out.println();
+        System.out.println(keyMatrix);
+        Vector<Vector<Double>> inverseKeyMatrix = invertMatrix(keyMatrix);
+        System.out.println("==============INvert");
+        System.out.println(inverseKeyMatrix);
 
-        System.out.println(inverseKeyMatrix.toString());
-
+        System.out.println("==============");
         StringBuilder decrypted = new StringBuilder();
         for (int i = 0; i < text.size(); i += keyMatrix.size()) {
             for (int j = 0; j < keyMatrix.size(); ++j) {
-                int decryptedChar = 0;
-                for (int k = 0; k < keyMatrix.size(); ++k)
+                double decryptedChar = 0.0;
+                for (int k = 0; k < keyMatrix.size(); ++k) {
+                    System.out.print((int)text.get(i + k) + " ");
                     decryptedChar += inverseKeyMatrix.get(j).get(k) * text.get(i + k);
+                }
 
-                decrypted.append((char) (decryptedChar % 65536));
+                //System.out.print((Math.round(decryptedChar)) + " ");
+                decrypted.append((char) (Math.round(decryptedChar)));
             }
+            System.out.println();
         }
 
         text.clear();
@@ -85,47 +98,26 @@ public class Hill {
             text.add(c);
     }
 
-    private static Vector<Vector<Integer>> invertMatrix(Vector<Vector<Integer>> matrix) {
-        Vector<Vector<Integer>> result = new Vector<>();
+    private static Vector<Vector<Double>> invertMatrix(Vector<Vector<Integer>> matrix) {
+        Vector<Vector<Double>> result = new Vector<>();
         Vector<Vector<Integer>> algebraicComplementsMatrix = algebraicComplements(matrix);
 
-        System.out.println("Dop = " + algebraicComplementsMatrix);
-
         int det = (int) determinant(matrix);
-        int dInv = digitInverse(det, 65536);
-
-        System.out.println(det + " ; DInv = " + dInv);
 
         for (int i = 0; i < matrix.size(); i++) {
             result.add(new Vector<>());
             for (int j = 0; j < matrix.size(); j++)
-                result.get(i).add(algebraicComplementsMatrix.get(j).get(i) * dInv);
+                result.get(i).add(algebraicComplementsMatrix.get(j).get(i) * (1.0 / det));
         }
 
-        for (int i = 0; i < matrix.size(); i++)
-            for (int j = 0; j < matrix.size(); j++)
-                if (result.get(i).get(j) >= 0)
-                    result.get(i).set(j, result.get(i).get(j) % 65536);
-                else
-                    for (int x = 0; ; x++)
-                        if ((x * 65536 + result.get(i).get(j)) > 0) {
-                            result.get(i).set(j, x * 65536 + result.get(i).get(j));
-                            break;
-                        }
         return result;
-    }
-
-    public static int digitInverse(int a, int module) {
-        System.out.println(a + " " + module);
-        BigInteger bigA = BigInteger.valueOf(a);
-        BigInteger bigM = BigInteger.valueOf(module);
-
-        // Вычисляем обратный элемент
-        return bigA.modInverse(bigM).intValue();
     }
 
     public static double determinant(Vector<Vector<Integer>> matrix) {
         double result = 0;
+
+        if(matrix.size() == 0)
+            return 0.0;
 
         if (matrix.size() == 1) {
             result = matrix.get(0).get(0);
