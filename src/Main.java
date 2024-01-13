@@ -5,23 +5,20 @@ import java.util.Objects;
 import java.util.Vector;
 
 public class Main {
-    private JFrame frame;
-    private JComboBox<String> methods;
-    private JTextField keyField;
-    private JButton encryptButton;
-    private JButton decryptButton;
-    private JButton swapButton;
-    private JTextArea textAreaInput;
-    private JTextArea textAreaOutput;
+    private final JFrame frame;
+    private final JComboBox<String> methods;
+    private final JTextField keyField;
+    private final JTextArea textAreaInput;
+    private final JTextArea textAreaOutput;
 
-    private JPanel panelAtbash;
-    private JPanel panelDiffieHellman;
-    private JPanel panelRSA;
+    private final JPanel panelAtbash;
+    private final JPanel panelDiffieHellman;
+    private final JPanel panelRSA;
 
-    private JRadioButton unicodeRadioButton;
-    private JRadioButton wordRadioButton;
-    private JRadioButton sentenceRadioButton;
-    private JRadioButton textRadioButton;
+    private final JRadioButton unicodeRadioButton;
+    private final JRadioButton wordRadioButton;
+    private final JRadioButton sentenceRadioButton;
+    private final JRadioButton textRadioButton;
 
     public Main() {
         frame = new JFrame("Шифровальщик");
@@ -146,9 +143,9 @@ public class Main {
 
         JPanel buttonPanel = new JPanel(new FlowLayout());
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Добавление отступов
-        encryptButton = new JButton("Шифровать");
-        decryptButton = new JButton("Дешифровать");
-        swapButton = new JButton("⁐");
+        JButton encryptButton = new JButton("Шифровать");
+        JButton decryptButton = new JButton("Дешифровать");
+        JButton swapButton = new JButton("⁐");
         buttonPanel.add(encryptButton);
         buttonPanel.add(decryptButton);
         buttonPanel.add(swapButton);
@@ -269,13 +266,13 @@ public class Main {
         });
 
         decryptButton.addActionListener(e -> {
-            Vector<Character> text = new Vector<>();
-            for (int i = 0; i < textAreaInput.getText().length(); i++)
-                text.add(textAreaInput.getText().charAt(i));
+                Vector<Character> text = new Vector<>();
+                for (int i = 0; i < textAreaInput.getText().length(); i++)
+                    text.add(textAreaInput.getText().charAt(i));
 
-            Vector<Character> key = new Vector<>();
-            for (int i = 0; i < keyField.getText().length(); i++)
-                key.add(keyField.getText().charAt(i));
+                Vector<Character> key = new Vector<>();
+                for (int i = 0; i < keyField.getText().length(); i++)
+                    key.add(keyField.getText().charAt(i));
 
             try {
                 switch ((String) Objects.requireNonNull(methods.getSelectedItem())) {

@@ -2,7 +2,7 @@ import java.math.BigInteger;
 import java.util.Vector;
 
 public class AlgebraMatrix {
-    private static Character filler = 'X';
+    private static Character filler = '¡';
 
     private static Vector<Vector<Integer>> keyToMatrix(Vector<Character> key) {
         int x = (int) Math.sqrt(key.size());
@@ -26,7 +26,7 @@ public class AlgebraMatrix {
     }
 
     public static void encrypt(Vector<Character> key, Vector<Character> text) {
-        filler = 'X';
+        filler = '¡';
         Vector<Vector<Integer>> keyMatrix = keyToMatrix(key);
 
         if (text.contains(filler)) {
@@ -103,6 +103,7 @@ public class AlgebraMatrix {
         Vector<Vector<Integer>> algebraicComplementsMatrix = algebraicComplements(matrix);
 
         int det = (int) determinant(matrix);
+        System.out.println("Det = " + det);
 
         for (int i = 0; i < matrix.size(); i++) {
             result.add(new Vector<>());

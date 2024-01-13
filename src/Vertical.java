@@ -3,10 +3,10 @@ import kotlin.Pair;
 import java.util.Vector;
 
 public class Vertical {
-    private static char filler = 'X';
+    private static char filler = '¡';
 
     public static void encrypt(Vector<Character> key1, Vector<Character> text) {
-        filler = 'X';
+        filler = '¡';
         Vector<Vector<Integer>> matrix = new Vector<>();
 
         Vector<Character> key = new Vector<>();

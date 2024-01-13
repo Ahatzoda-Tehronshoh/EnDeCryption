@@ -7,7 +7,7 @@ import java.util.Set;
 import java.util.Vector;
 
 public class Playfair {
-    private static char filler = 'X';
+    private static char filler = '¡';
 
     private static char[][] createMatrix(Vector<Character> key) {
         char[][] matrix = new char[256][256];
@@ -25,7 +25,7 @@ public class Playfair {
                 }
             }
 
-        for (int ch = 0; ch < 65536; ch++)
+        for (int ch = 1; ch <= 65536; ch++)
             if (!used.contains((char)ch)) {
                 matrix[x][y] = (char)ch;
                 y++;
@@ -68,7 +68,7 @@ public class Playfair {
     }
 
     public static void encrypt(Vector<Character> key, Vector<Character> text) {
-        filler = 'X';
+        filler = '¡';
         char[][] keyMatrix = createMatrix(key);
 
         if(text.contains(filler)) {

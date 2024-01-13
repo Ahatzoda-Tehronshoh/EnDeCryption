@@ -7,7 +7,7 @@ public class Vigenere {
         for (int i = 0; i < text.size(); i++) {
             char plainChar = text.get(i);
             char keyChar = key.get(i);
-            int encryptedChar = (plainChar + keyChar) % 65536;
+            int encryptedChar = (plainChar + keyChar - 1) % 65536;
             text.set(i, (char) encryptedChar);
         }
     }
@@ -18,7 +18,7 @@ public class Vigenere {
         for (int i = 0; i < text.size(); i++) {
             char encryptedChar = text.get(i);
             char keyChar = key.get(i);
-            int decryptedChar = (encryptedChar - keyChar + 65536) % 65536;
+            int decryptedChar = (encryptedChar - keyChar + 1) % 65536;
             text.set(i, (char) decryptedChar);
         }
     }

@@ -2,7 +2,7 @@ import java.math.BigInteger;
 import java.util.Vector;
 
 public class Hill {
-    private static Character filler = 'X';
+    private static Character filler = '¡';
 
     private static Vector<Vector<Integer>> keyToMatrix(Vector<Character> key) {
         int x = (int) Math.sqrt(key.size());
@@ -26,7 +26,7 @@ public class Hill {
     }
 
     public static void encrypt(Vector<Character> key, Vector<Character> text) {
-        filler = 'X';
+        filler = '¡';
         Vector<Vector<Integer>> keyMatrix = keyToMatrix(key);
 
         int det = (int) determinant(keyMatrix);
@@ -64,11 +64,11 @@ public class Hill {
 
     public static void decrypt(Vector<Character> key, Vector<Character> text) {
         Vector<Vector<Integer>> keyMatrix = keyToMatrix(key);
-        System.out.println(keyMatrix.toString());
+        System.out.println(keyMatrix);
 
         Vector<Vector<Integer>> inverseKeyMatrix = invertMatrix(keyMatrix);
 
-        System.out.println(inverseKeyMatrix.toString());
+        System.out.println(inverseKeyMatrix);
 
         StringBuilder decrypted = new StringBuilder();
         for (int i = 0; i < text.size(); i += keyMatrix.size()) {
